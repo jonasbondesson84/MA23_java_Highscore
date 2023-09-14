@@ -41,7 +41,7 @@ public class Main {
         System.out.println("Ange spelare:");
         return sc.nextLine();
     }
-
+    //Function to check highest result
     static int highestResult(ArrayList<Integer> pointsList)  {
         int highestNumber=0;
         int indexNumber=0;
