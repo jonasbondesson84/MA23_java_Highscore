@@ -20,16 +20,12 @@ public class Main {
             choice = sc.nextLine();
 
             if (choice.equalsIgnoreCase("1")) {
-
                 addResult(highScore);
-
-                System.out.println(highScore);
-
             } else if (choice.equalsIgnoreCase("2")) {
                 printList(highScore);
             }
         } while (!choice.equalsIgnoreCase("3"));
-        if(!highScore.isEmpty()) {
+        if (!highScore.isEmpty()) {
             System.out.println("Högsta poäng var: ");
             printList(highestResult(highScore));
             System.out.println("Medelpoängen var:");
@@ -48,8 +44,6 @@ public class Main {
         score = sc.nextInt();
         sc.nextLine();
         highScore.put(name, score);
-
-
     }
 
     static void printList(HashMap<String, Integer> highScore) {
@@ -58,21 +52,19 @@ public class Main {
             System.out.println(i + " - " + highScore.get(i) + " poäng");
         }
         System.out.println();
-
     }
 
-    //Function to check highest result
+    //Function to check highest results
     static HashMap<String, Integer> highestResult(HashMap<String, Integer> highScore) {
-        HashMap<String, Integer> topScore =new HashMap<>();
-        int topScoreNumber= Collections.max(highScore.values());
-        for(String name: highScore.keySet())
-            if(highScore.get(name) == topScoreNumber) {
-                topScore.put(name, highScore.get(name));
+        HashMap<String, Integer> topScoreList = new HashMap<>();
+        int topScoreNumber = Collections.max(highScore.values()); //Hämtar högsta värdet i highScore
+        for (String name : highScore.keySet()) {
+            if (highScore.get(name) == topScoreNumber) { //Lägger till alla som har högsta resultat
+                topScoreList.put(name, topScoreNumber);
             }
-
-        return topScore;
+        }
+        return topScoreList;
     }
-
 
 
     static double showAverage(HashMap<String, Integer> highScore) {
@@ -83,6 +75,5 @@ public class Main {
         }
         average = (double) total / highScore.size();
         return average;
-
     }
 }
