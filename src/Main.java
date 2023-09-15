@@ -1,4 +1,6 @@
-import java.util.ArrayList;
+
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -6,64 +8,81 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ArrayList<Integer> pointsList = new ArrayList<>();
-        ArrayList<String> namesList = new ArrayList<>();
+        HashMap<String, Integer> highScore = new HashMap<>();
+
 
         String choice;
         do {
             System.out.println("Välj vad du vill göra:");
             System.out.println("1. Mata in resultat");
             System.out.println("2. Visa resultat");
-            choice= sc.nextLine();
+            System.out.println("3. Räkna ut högsta poäng och medelpoäng samt avsluta programmet");
+            choice = sc.nextLine();
 
-            if(choice.equalsIgnoreCase("1")) {
-                namesList.add(addNames());
-                pointsList.add(addResult());
-                sc.nextLine();
+            if (choice.equalsIgnoreCase("1")) {
 
+                addResult(highScore);
+
+                System.out.println(highScore);
+
+            } else if (choice.equalsIgnoreCase("2")) {
+                printList(highScore);
             }
-        } while (!choice.equalsIgnoreCase("2"));
-        for (int i=0;i<namesList.size();i++) {
-            System.out.println(namesList.get(i) + " - " + pointsList.get(i));
+        } while (!choice.equalsIgnoreCase("3"));
+        if(!highScore.isEmpty()) {
+            System.out.println("Högsta poäng var: ");
+            printList(highestResult(highScore));
+            System.out.println("Medelpoängen var:");
+            System.out.println(showAverage(highScore));
         }
-        showAverage(pointsList);
-        getHighestNumberName(highestResult(pointsList), namesList);
+        System.out.println("Tack för ditt deltagande.");
+
     }
 
+    static void addResult(HashMap<String, Integer> highScore) {
+        String name;
+        int score;
+        System.out.println("Ange namn: ");
+        name = sc.nextLine();
+        System.out.println("Ange poäng: ");
+        score = sc.nextInt();
+        sc.nextLine();
+        highScore.put(name, score);
 
-    static int addResult() {
-        System.out.println("Ange poäng:");
-        return sc.nextInt();
+
     }
 
-    static String addNames() {
+    static void printList(HashMap<String, Integer> highScore) {
 
-        System.out.println("Ange spelare:");
-        return sc.nextLine();
+        for (String i : highScore.keySet()) {
+            System.out.println(i + " - " + highScore.get(i) + " poäng");
+        }
+        System.out.println();
+
     }
+
     //Function to check highest result
-    static int highestResult(ArrayList<Integer> pointsList)  {
-        int highestNumber=0;
-        int indexNumber=0;
-        for (int number : pointsList) {
-            if(number>highestNumber) {
-                highestNumber=number;
-                indexNumber=pointsList.indexOf(number);
+    static HashMap<String, Integer> highestResult(HashMap<String, Integer> highScore) {
+        HashMap<String, Integer> topScore =new HashMap<>();
+        int topScoreNumber= Collections.max(highScore.values());
+        for(String name: highScore.keySet())
+            if(highScore.get(name) == topScoreNumber) {
+                topScore.put(name, highScore.get(name));
             }
-        }
-        System.out.println("Det högsta resultatet var " + highestNumber);
-        return indexNumber;
+
+        return topScore;
     }
-    static void getHighestNumberName(int indexNumber, ArrayList<String> listNames) {
-        System.out.println("Det var " + listNames.get(indexNumber) + " som fick det högsta resultatet.");
-    }
-    static void showAverage(ArrayList<Integer> pointsList) {
-        int total=0;
+
+
+
+    static double showAverage(HashMap<String, Integer> highScore) {
+        int total = 0;
         double average;
-        for (int i : pointsList) {
-            total=(total+i);
+        for (int i : highScore.values()) {
+            total = (total + i);
         }
-        average = (double) total / pointsList.size();
-        System.out.println("Medelvärdet var " + average);
+        average = (double) total / highScore.size();
+        return average;
+
     }
 }
